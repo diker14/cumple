@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>¡Feliz Cumpleaños Rosa!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fff7f7;
+      --bg2: #fff0f3;
+      --accent: #ff8ab6;
+      --accent2: #ffc1e0;
+      --text: #333;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Montserrat,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: radial-gradient(circle at 10% 10%, var(--bg1) 0%, transparent 25%),
+                  radial-gradient(circle at 90% 90%, var(--bg2) 0%, transparent 25%),
+                  linear-gradient(180deg, #fff 0%, #fffafc 100%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      overflow:hidden;
+    }
+
+    /* ===== CORAZONES EN TODO EL FONDO ===== */
+    .hearts-bg {
+      position:fixed;
+      top:0; left:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .heart {
+      position:absolute;
+      bottom:-20px;
+      color:#ff99cc;
+      font-size:20px;
+      opacity:0.8;
+      animation: riseHeart 6s linear forwards;
+    }
+    @keyframes riseHeart {
+      0% { transform: translateY(0) scale(1); opacity:0.9; }
+      50% { transform: translateY(-50vh) scale(1.3); opacity:1; }
+      100% { transform: translateY(-100vh) scale(0.8); opacity:0; }
+    }
+
+    .card{
+      width:100%;
+      max-width:900px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:20px;
+      box-shadow: 0 12px 40px rgba(20,20,60,0.08);
+      overflow:hidden;
+      position:relative;
+      padding:28px;
+      z-index:1;
+    }
+
+    .top{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .title{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo{
+      width:84px;
+      height:84px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:800;
+      font-size:26px;
+      font-family:Pacifico, cursive;
+      box-shadow:0 6px 18px rgba(130,50,100,0.12);
+    }
+    h1{
+      margin:0;
+      font-size:28px;
+      line-height:1;
+    }
+    p.lead{ margin:0; color: #6b6b6b; font-size:14px;}
+
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:22px;
+      margin-top:18px;
+      align-items:start;
+    }
+    @media (max-width:880px){
+      .main{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      padding:20px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(250,250,255,0.6));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .greeting{
+      text-align:left;
+    }
+    .greeting h2{
+      font-family:Pacifico, cursive;
+      font-size:46px;
+      margin:6px 0 6px;
+      color:var(--accent);
+      text-shadow: 0 3px 0 rgba(0,0,0,0.03);
+    }
+    .greeting .name{
+      color: #4b4b4b;
+      font-size:22px;
+      font-weight:700;
+    }
+    .message{
+      margin-top:12px;
+      color:#444;
+      font-size:15px;
+      line-height:1.5;
+    }
+
+    .photo{
+      height:260px;
+      border-radius:12px;
+      background: linear-gradient(135deg,#fff,#faf8ff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* === Fotos rotativas con efecto fade === */
+    .foto-animada {
+      position:absolute;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:15px;
+      opacity:0;
+      transition: opacity 2s ease, transform 6s ease;
+      transform: scale(1) rotateY(0deg);
+      box-shadow: 0 0 25px rgba(255, 182, 193, 0.5);
+    }
+    .foto-animada.active {
+      opacity:1;
+      transform: scale(1.05) rotateY(5deg);
+      z-index:2;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow: 0 6px 18px rgba(255,138,182,0.18);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:2px solid rgba(255,138,182,0.12);
+      box-shadow:none;
+      font-weight:700;
+    }
+    .btn:active{ transform:translateY(2px); }
+
+    .footer{
+      margin-top:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color:#777;
+      font-size:13px;
+    }
+
+    canvas#confettiCanvas{
+      position:absolute;
+      left:0; top:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:40;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Fondo con corazones animados -->
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <div class="card" role="main" aria-labelledby="titulo">
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <div class="top">
+      <div class="title" id="titulo">
+        <div class="logo" aria-hidden="true">🎉</div>
+        <div>
+          <h1>¡Feliz Cumpleaños Rosa!</h1>
+          <p class="lead">Una sorpresa especial para ti 💖</p>
+        </div>
+      </div>
+
+      <div>
+        <small id="fechaText"></small>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="panel greeting" aria-live="polite">
+        <h2>¡Feliz Cumple, <span class="name">Rosa</span>! 🎂</h2>
+        <div class="message">
+          Que este día esté lleno de risas, abrazos y momentos inolvidables. Gracias por ser tú — vamos a celebrarte como te mereces.
+        </div>
+
+        <div class="controls" style="margin-top:18px;">
+          <button class="btn" id="playBtn">▶️ Reproducir música</button>
+          <button class="btn secondary" id="stopBtn">⏹️ Detener</button>
+          <button class="btn" id="showConfetti">🎉 Confeti</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="photo" id="photoBox">
+          <img src="rosa.jpeg" class="foto-animada active" alt="Foto Rosa 1">
+          <img src="rosa1.jpeg" class="foto-animada" alt="Foto Rosa 2">
+          <img src="rosa2.jpeg" class="foto-animada" alt="Foto Rosa 3">
+          <img src="rosa3.jpeg" class="foto-animada" alt="Foto Rosa 4">
+          <img src="rosa4.jpeg" class="foto-animada" alt="Foto Rosa 5">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <small>Hecho con ❤️ especialmente para Rosa</small>
+      <small>Personaliza la foto y la canción si lo deseas.</small>
+    </div>
+  </div>
+
+  <!-- Reproducir canción de YouTube -->
+  <iframe id="ytplayer" type="text/html" width="0" height="0"
+    src="https://www.youtube.com/embed/vBz2KFBOGwI?enablejsapi=1&origin=*"
+    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+  <script>
+    // Fecha
+    const fechaText = document.getElementById('fechaText');
+    const d = new Date();
+    fechaText.textContent = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Corazones románticos flotando
+    const heartsBg = document.getElementById('heartsBg');
+    let heartInterval = null;
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = ['💖','💘','💗','💓'][Math.floor(Math.random()*4)];
+      heart.style.left = Math.random()*100 + '%';
+      heart.style.fontSize = (16 + Math.random()*28) + 'px';
+      heart.style.animationDuration = (5 + Math.random()*4) + 's';
+      heart.style.color = ['#ff8ab6','#ff99cc','#ff66b2','#ff4da6','#ffb6c1'][Math.floor(Math.random()*5)];
+      heartsBg.appendChild(heart);
+      setTimeout(()=>heart.remove(), 9000);
+    }
+
+    function startHearts() {
+      if (!heartInterval) heartInterval = setInterval(createHeart, 250);
+    }
+    function stopHearts() {
+      clearInterval(heartInterval);
+      heartInterval = null;
+    }
+
+    // Confetti
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [], confettiRunning = false;
+    function resizeCanvas(){
+      const rect = document.querySelector('.card').getBoundingClientRect();
+      canvas.width = rect.width; canvas.height = rect.height;
+      canvas.style.left = rect.left + 'px'; canvas.style.top = rect.top + 'px';
+    }
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    function random(min,max){ return Math.random()*(max-min)+min; }
+    function createConfettiPiece(x,y){
+      return { x,y,vx:random(-6,6),vy:random(-10,-4),size:random(6,12),angle:random(0,Math.PI*2),
+        spin:random(-0.3,0.3),color:['#ff8ab6','#ffc1e0','#ffbfd9','#ffe0ec','#ffd0e8'][Math.floor(random()*5)],ttl:180+Math.floor(random()*120)};
+    }
+    function startConfetti(count=80){
+      if (!canvas.width) resizeCanvas();
+      const w=canvas.width,h=canvas.height;
+      for(let i=0;i<count;i++) confettiPieces.push(createConfettiPiece(random(0,w),random(0,h/2)));
+      if (!confettiRunning){ confettiRunning=true; requestAnimationFrame(confettiLoop); }
+    }
+    function confettiLoop(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=confettiPieces.length-1;i>=0;i--){
+        const p=confettiPieces[i];
+        p.vy+=0.25; p.vx*=0.99; p.vy*=0.999;
+        p.x+=p.vx; p.y+=p.vy; p.angle+=p.spin; p.ttl--;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle);
+        ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6); ctx.restore();
+        if(p.ttl<=0||p.y>canvas.height+50) confettiPieces.splice(i,1);
+      }
+      if(confettiPieces.length>0) requestAnimationFrame(confettiLoop); else confettiRunning=false;
+    }
+    document.getElementById('showConfetti').addEventListener('click',()=>startConfetti(120));
+
+    // YouTube API
+    let player;
+    function onYouTubeIframeAPIReady(){
+      player=new YT.Player('ytplayer',{events:{'onStateChange':onPlayerStateChange}});
+    }
+    function onPlayerStateChange(e){
+      if(e.data===1){ startHearts(); }
+      if(e.data===2||e.data===0){ stopHearts(); }
+    }
+
+    document.getElementById('playBtn').addEventListener('click',()=>{ if(player) player.playVideo(); });
+    document.getElementById('stopBtn').addEventListener('click',()=>{ if(player) player.stopVideo(); });
+
+    // Cargar scripts
+    const ytScript=document.createElement('script');
+    ytScript.src="https://www.youtube.com/iframe_api";
+    document.body.appendChild(ytScript);
+
+    // ==== Rotación automática de fotos ====
+    const fotos = document.querySelectorAll('.foto-animada');
+    let current = 0;
+    setInterval(() => {
+      fotos[current].classList.remove('active');
+      current = (current + 1) % fotos.length;
+      fotos[current].classList.add('active');
+    }, 6000);
+  </script>
+</body>
+</html>
